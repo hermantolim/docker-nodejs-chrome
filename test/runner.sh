@@ -18,11 +18,11 @@ echo " --> Starting insecure container"
 ID=`docker run -d -p 22 $NAME:$VERSION /sbin/my_init --enable-insecure-key`
 sleep 1
 
-echo " --> Obtaining SSH port number"
-SSHPORT=`docker inspect --format='{{(index (index .NetworkSettings.Ports "22/tcp") 0).HostPort}}' "$ID"`
-if [[ "$SSHPORT" = "" ]]; then
-	abort "Unable to obtain container SSH port number"
-fi
+#echo " --> Obtaining SSH port number"
+#SSHPORT=`docker inspect --format='{{(index (index .NetworkSettings.Ports "22/tcp") 0).HostPort}}' "$ID"`
+#if [[ "$SSHPORT" = "" ]]; then
+#	abort "Unable to obtain container SSH port number"
+#fi
 
 trap cleanup EXIT
 
@@ -32,7 +32,7 @@ docker exec $ID rm /etc/service/sshd/down
 docker exec $ID sv start /etc/service/sshd
 sleep 1
 
-echo " --> Logging into container and running tests"
-sleep 1 # Give container some more time to start up.
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-tools/docker-ssh $ID bash < test/test.sh
+#echo " --> Logging into container and running tests"
+#sleep 1 # Give container some more time to start up.
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#tools/docker-ssh $ID bash < test/test.sh
