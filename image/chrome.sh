@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-source /bd_build/buildconfig
+source /build/buildconfig
 
-header "installing chrome"
+header "Installing chrome"
 #CHROME_PACKAGE="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 #curl -L "$CHROME_PACKAGE" > $HOME/chrome.deb
 #dpkg -i $HOME/chrome.deb

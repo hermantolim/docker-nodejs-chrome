@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
-source /bd_build/buildconfig
+source /build/buildconfig
 
-run /bd_build/prepare.sh
-run /bd_build/system_services.sh
-run /bd_build/utilities.sh
-run /bd_build/nodejs.sh
-run /bd_build/chrome.sh
-run /bd_build/finalize.sh
+run /build/prepare.sh
+run /build/system_services.sh
+run /build/utilities.sh
+run /build/nodejs.sh
+run /build/chrome.sh
+run /build/finalize.sh

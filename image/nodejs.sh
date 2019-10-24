@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-source /bd_build/buildconfig
+source /build/buildconfig
 
-header "installing nodejs"
+header "Installing nodejs"
 
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 cat >>/etc/apt/sources.list <<EOF

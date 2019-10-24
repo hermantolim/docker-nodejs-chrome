@@ -1,28 +1,48 @@
 export LC_ALL=C
 export DEBIAN_FRONTEND=noninteractive
-
-export DISABLE_SSH=${DISABLE_SSH:-0}
+export DISABLE_SSH=${DISABLE_SSH:-1}
 export DISABLE_CRON=${DISABLE_CRON:-1}
 export DISABLE_SYSLOG=${DISABLE_SYSLOG:-1}
+export TZ=${TZ:-UTC}
 
-function minimal_install()
-{
+if perl -v >/dev/null 2>/dev/null; then
+    RESET=`perl -e 'print("\e[0m")'`
+    BOLD=`perl -e 'print("\e[1m")'`
+    YELLOW=`perl -e 'print("\e[33m")'`
+    BLUE_BG=`perl -e 'print("\e[44m")'`
+elif python -V >/dev/null 2>/dev/null; then
+    RESET=`echo 'import sys; sys.stdout.write("\033[0m")' | python`
+    BOLD=`echo 'import sys; sys.stdout.write("\033[1m")' | python`
+    YELLOW=`echo 'import sys; sys.stdout.write("\033[33m")' | python`
+    BLUE_BG=`echo 'import sys; sys.stdout.write("\033[44m")' | python`
+else
+    RESET=
+    BOLD=
+    YELLOW=
+    BLUE_BG=
+fi
+
+function minimal_install() {
     if [[ ! -e /var/lib/apt/lists/lock ]]; then
         apt-get update
     fi
     apt-get install -y --no-install-recommends "$@"
 }
 
-function header()
-{
-    local title="$1"
-    echo "------------------------------------------"
-    echo "${title}"
-    echo "------------------------------------------"
+hr() {
+    local col=$((COLUMNS/2))
+    local sep="-"
+    local begin="//" end="//"
+    local out=$(printf "%0${col}d" 0)
+    printf ${YELLOW}'%s%s%s\n'${RESET} "$begin" "${out//0/$sep}" "$end"
 }
 
-function run()
-{
+function header() {
+    local title="$1"
+    hr; echo "${BLUE}${BG}${YELLOW}//${BOLD}  ${title}${RESET}"; hr
+}
+
+function run() {
     echo "+ $@"
     "$@"
 }
@@ -30,4 +50,12 @@ function run()
 function proxy() {
     header "using apt-cacher-ng as proxy"
     echo "Acquire::http::Proxy { \"$1\" }" >/etc/apt/apt.conf.d/99proxy
+}
+
+function tzset() {
+    if [[ -e /usr/share/zoneinfo/${TZ} ]]; then
+        ln -sr /usr/share/zoneinfo/${TZ} /etc/localtime
+    else
+        ln -sr /usr/share/zoneinfo/UTC /etc/localtime
+    fi
 }

@@ -1,7 +1,6 @@
-VERSION ?= 0.1.0
+VERSION ?= 0.1.1
 NAME ?= hermantolim/nodejs-chrome
 LATEST_VERSION = latest
-VERSION_ARG ?= $(VERSION)
 ifdef APT_CACHER_NG
     BUILD_ARG = --build-arg APT_CACHER_NG=$(APT_CACHER_NG)
 endif
@@ -11,7 +10,7 @@ endif
 all: build
 
 build:
-	docker build --rm=true --compress=true -t $(NAME):$(VERSION_ARG) $(BUILD_ARG) image
+	docker build --rm=true --compress=true -t $(NAME):$(VERSION) $(BUILD_ARG) ./image
 
 test:
 	env NAME=$(NAME) VERSION=$(VERSION_ARG) ./test/runner.sh

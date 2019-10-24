@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-source /bd_build/buildconfig
+source /build/buildconfig
 set -x
 
-SSHD_BUILD_PATH=/bd_build/services/sshd
+SSHD_BUILD_PATH=/build/services/sshd
 
 ## Install the SSH server.
 minimal_install openssh-server

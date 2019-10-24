@@ -1,18 +1,18 @@
 #!/bin/bash
 set -e
-source /bd_build/buildconfig
+source /build/buildconfig
 
 export INITRD=no
 mkdir -p /etc/container_environment
 echo -n no > /etc/container_environment/INITRD
 
-## Ensure that docs and non-English locales are not installed.
-run cp /bd_build/config/dpkg-nodocs.conf /etc/dpkg/dpkg.cfg.d/01_nodoc
-run cp /bd_build/config/dpkg-only-english-locale.conf /etc/dpkg/dpkg.cfg.d/01_only_english_locale
+# Ensure that docs and non-English locales are not installed.
+run cp /build/config/dpkg-nodocs.conf /etc/dpkg/dpkg.cfg.d/01_nodoc
+run cp /build/config/dpkg-only-english-locale.conf /etc/dpkg/dpkg.cfg.d/01_only_english_locale
 
-[[ -n "$APT_CACHER_NG" ]] && proxy "$APT_CACHER_NG"
+[[ -n "${APT_CACHER_NG}" ]] && proxy "${APT_CACHER_NG}"
 
-
+header "Preparing installation packages"
 cat >/etc/apt/sources.list <<EOF
 deb http://archive.ubuntu.com/ubuntu/ bionic main universe
 deb http://archive.ubuntu.com/ubuntu/ bionic-security main universe
@@ -65,10 +65,12 @@ minimal_install \
 apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
 
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
 locale-gen
-update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
 echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE
+echo -n UTC > /etc/container_environment/TZ
 
 header "Performing miscellaneous preparation"
 
