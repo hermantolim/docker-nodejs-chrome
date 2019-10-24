@@ -30,7 +30,7 @@ function minimal_install() {
 }
 
 hr() {
-    local col=$((COLUMNS/2))
+    local col=$(($(tput -T linux cols)/2))
     local sep="-"
     local begin="//" end="//"
     local out=$(printf "%0${col}d" 0)
@@ -48,7 +48,7 @@ function run() {
 }
 
 function proxy() {
-    header "using apt-cacher-ng as proxy"
+    echo "using apt-cacher-ng as proxy"
     echo "Acquire::http::Proxy { \"$1\" }" >/etc/apt/apt.conf.d/99proxy
 }
 

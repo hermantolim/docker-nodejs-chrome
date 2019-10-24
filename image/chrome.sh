@@ -8,7 +8,7 @@ header "Installing chrome"
 #dpkg -i $HOME/chrome.deb
 
 curl -s https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-cat >>/etc/apt/sources.list <<EOF
+cat >>/etc/apt/sources.list.d/google-chrome.list <<EOF
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 EOF
 
