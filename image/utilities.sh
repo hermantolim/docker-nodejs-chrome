@@ -3,8 +3,8 @@ set -e
 source /bd_build/buildconfig
 
 ## Often used tools.
-minimal_install less vim-tiny psmisc gpg-agent dirmngr build-essentials
-run ln -s /usr/bin/vim.tiny /usr/bin/vim
+#minimal_install less vim-tiny psmisc gpg-agent dirmngr
+#run ln -s /usr/bin/vim.tiny /usr/bin/vim
 
 ## This tool runs a command as another user and sets $HOME.
 run cp /bd_build/bin/setuser /sbin/setuser

@@ -1,14 +1,17 @@
 VERSION ?= 0.1.0
-NAME ?= hermantolim/firefox-geckodriver-baseimage
+NAME ?= hermantolim/nodejs-chrome
 LATEST_VERSION = latest
 VERSION_ARG ?= $(VERSION)
+ifdef APT_CACHER_NG
+    BUILD_ARG = --build-arg APT_CACHER_NG=$(APT_CACHER_NG)
+endif
 
 .PHONY: all build test tag_latest release ssh
 
 all: build
 
 build:
-	docker build --rm --network host -t $(NAME):$(VERSION_ARG) image
+	docker build --rm=true --compress=true -t $(NAME):$(VERSION_ARG) $(BUILD_ARG) image
 
 test:
 	env NAME=$(NAME) VERSION=$(VERSION_ARG) ./test/runner.sh
