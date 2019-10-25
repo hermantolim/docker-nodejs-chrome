@@ -60,6 +60,7 @@ minimal_install \
     fontconfig \
     gconf-service \
     language-pack-en \
+    git \
     curl
 
 apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
